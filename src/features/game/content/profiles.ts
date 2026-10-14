@@ -1,0 +1,121 @@
+import { usd } from "../money";
+import type { Profile } from "../types";
+
+export const profiles: Profile[] = [
+  {
+    id: "early-career",
+    name: "Early-career professional",
+    summary: "A steady paycheck, a store card, and a thin savings cushion.",
+    note: "Fictional teaching profile. Not a portrait of a typical household.",
+    lifestyle: {
+      salaryCents: usd(4500),
+      otherEarnedCents: 0,
+      livingExpenseCents: usd(3200),
+      baseTaxCents: 0,
+    },
+    cashCents: usd(5000),
+    assets: [],
+    liabilities: [
+      {
+        liabilityType: "consumer",
+        name: "Store card",
+        principalBalanceCents: usd(8000),
+        interestRateBps: 1800,
+        monthlyPaymentCents: usd(250),
+      },
+    ],
+  },
+  {
+    id: "experienced",
+    name: "Experienced professional",
+    summary: "Higher pay, a starter fund, and a smaller consumer balance.",
+    note: "Fictional teaching profile. The fund price is simulated and does not track a real index.",
+    lifestyle: {
+      salaryCents: usd(8000),
+      otherEarnedCents: 0,
+      livingExpenseCents: usd(5000),
+      baseTaxCents: 0,
+    },
+    cashCents: usd(20000),
+    assets: [
+      {
+        offerId: null,
+        assetType: "securities",
+        name: "Starter lantern units",
+        purchasePriceCents: usd(10000),
+        currentValueCents: usd(10000),
+        ownershipBps: 10_000,
+        incomeKind: "investment",
+        countsAsPassive: true,
+        recurringIncomeCents: usd(40),
+        recurringExpenseCents: 0,
+        incomePausedTurns: 0,
+        riskCategory: "moderate",
+        units: 100,
+        unitPriceCents: usd(100),
+      },
+    ],
+    liabilities: [
+      {
+        liabilityType: "consumer",
+        name: "Personal loan",
+        principalBalanceCents: usd(5000),
+        interestRateBps: 1200,
+        monthlyPaymentCents: usd(150),
+      },
+    ],
+  },
+  {
+    id: "entrepreneur",
+    name: "Solo operator",
+    summary: "An owner draw, a small service business, and a business note.",
+    note: "The draw is earned income. The business value is not the same thing as profit.",
+    lifestyle: {
+      salaryCents: usd(3500),
+      otherEarnedCents: 0,
+      livingExpenseCents: usd(2700),
+      baseTaxCents: 0,
+    },
+    cashCents: usd(12000),
+    assets: [
+      {
+        offerId: null,
+        assetType: "business",
+        name: "Benchside service route",
+        purchasePriceCents: usd(8000),
+        currentValueCents: usd(8000),
+        ownershipBps: 10_000,
+        incomeKind: "none",
+        countsAsPassive: false,
+        recurringIncomeCents: 0,
+        recurringExpenseCents: 0,
+        incomePausedTurns: 0,
+        riskCategory: "moderate",
+      },
+    ],
+    liabilities: [
+      {
+        liabilityType: "business",
+        name: "Benchside note",
+        principalBalanceCents: usd(4000),
+        interestRateBps: 900,
+        monthlyPaymentCents: usd(120),
+      },
+    ],
+  },
+  {
+    id: "bonus-year-saver",
+    name: "Bonus-year saver",
+    summary: "Same paycheck as the early-career profile, plus a one-time fictional savings balance.",
+    note: "The $50,000 is a teaching balance so a property decision can be made in one sitting. It is not a typical starting point.",
+    lifestyle: {
+      salaryCents: usd(4500),
+      otherEarnedCents: 0,
+      livingExpenseCents: usd(3200),
+      baseTaxCents: 0,
+    },
+    cashCents: usd(50000),
+    assets: [],
+    liabilities: [],
+  },
+];

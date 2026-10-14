@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-felt: #10243a;
+  --color-felt-deep: #0b1b2c;
+  --color-paper: #f3eee4;
+  --color-ink: #1b2430;
+  --color-brass: #c4a15a;
+  --color-brass-deep: #8c6424;
+  --color-sap: #1f8a5b;
+  --color-persimmon: #d24b32;
+  --color-tide: #2a6f8f;
+  --color-plum: #6d4c7d;
+  --color-warning: #a57914;
+  --font-sans: var(--font-figtree), "Figtree", sans-serif;
+  --font-display: var(--font-fraunces), "Fraunces", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: #0b1b2c;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  background: #0b1b2c;
+  color: #f3eee4;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+.display {
+  font-family: var(--font-display);
+  font-weight: 560;
+  letter-spacing: -0.03em;
+}
+
+:focus-visible {
+  outline: 2px solid #e6c27a;
+  outline-offset: 3px;
+}
+
+.table-mark {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(196, 161, 90, 0.16), transparent 42%),
+    linear-gradient(160deg, #16324d, #0e2236 60%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none !important;
+  }
 }

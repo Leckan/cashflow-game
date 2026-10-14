@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WealthQuest 3D
 
-## Getting Started
+A browser board game about turning a paycheck into income that shows up again. The board, cards, and deals are original. Every investment is a labeled simulation. Nothing in the game is a forecast, an offer, or financial, tax, or legal advice.
 
-First, run the development server:
+The product name is configurable with `NEXT_PUBLIC_BRAND_NAME` and `NEXT_PUBLIC_BRAND_PRODUCT`.
+
+## Run it locally
+
+Node.js 22 is required. This repo was installed with npm 11 because npm 10 can fail while resolving Vitest.
 
 ```bash
+npm install -g npm@11
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. No database, account, or API key is required. Games save as JSON under `.data/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A local account, if you want one, accepts any email and the password `playlocal` on `/profile`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Commands
 
-## Learn More
+```bash
+npm run dev          # development server
+npm run lint         # eslint
+npm run typecheck    # tsc --noEmit
+npm test             # financial engine and room tests
+npm run build        # production build
+npm run start        # serve the production build
+npm run test:e2e     # Playwright against the dev server
+npm run db:migrate   # no-op unless DATABASE_URL is set
+npm run db:seed      # no-op unless DATABASE_URL is set
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy `.env.example` to `.env.local`. Every variable is optional.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | Postgres. When set, each save also writes normalized rows. File saves still succeed if the write fails. |
+| `AUTH_SECRET` or `NEXTAUTH_SECRET` | Session signing. A documented local default is used when both are unset. |
+| `NEXTAUTH_URL` | Public URL for Auth.js, for example `http://localhost:3000`. |
+| `NEXT_PUBLIC_BRAND_NAME` | Short name. Default `WealthQuest`. |
+| `NEXT_PUBLIC_BRAND_PRODUCT` | Product title. Default `WealthQuest 3D`. |
+| `NEXT_PUBLIC_MULTIPLAYER_ENABLED` | Set to `false` to turn private rooms off. |
+| `GAME_DATA_DIR` | Directory for JSON saves. Default `.data`. |
 
-## Deploy on Vercel
+## Database
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Local play does not need Postgres.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+docker compose up db
+```
+
+Then set:
+
+```bash
+DATABASE_URL=postgresql://wealthquest:wealthquest@localhost:5432/wealthquest
+```
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+`docker compose up --build` starts Postgres and the app together. The image migrates and seeds on boot.
+
+## Tests
+
+```bash
+npm test
+npm run test:e2e
+```
+
+The browser test starts a duplex challenge, buys the fictional Maple Street listing, checks the statement, ends the month, and reloads the saved game. A second test uses a phone-sized viewport, the flat board, and the R key.
+
+## Deploy
+
+The app is a Next.js server that also writes `.data/`. On Vercel, attach a Postgres database and set `DATABASE_URL` plus `AUTH_SECRET`. File saves on a serverless disk do not persist, so cloud play needs the database. Set `NEXTAUTH_URL` to the deployment URL.
+
+Private rooms use HTTP polling. They do not require Redis or a WebSocket server.
+
+## More
+
+- [Architecture](docs/architecture.md)
+- [Financial calculations](docs/financial-calculations.md)
