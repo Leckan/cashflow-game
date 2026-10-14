@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "db:migrate": "node --experimental-strip-types src/lib/db/migrate.ts",
-    "db:seed": "node --experimental-strip-types src/lib/db/seed.ts"
+    "db:migrate": "node --env-file=.env --experimental-strip-types src/lib/db/migrate.ts",
+    "db:seed": "vite-node src/lib/db/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
